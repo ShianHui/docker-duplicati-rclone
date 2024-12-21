@@ -17,7 +17,8 @@ ENV HOME="/config" \
   DUPLICATI__SERVER_DATAFOLDER=/config \
   DUPLICATI__WEBSERVICE_PORT=8200 \
   DUPLICATI__WEBSERVICE_INTERFACE=any \
-  DUPLICATI__WEBSERVICE_ALLOWED_HOSTNAMES=*
+  DUPLICATI__WEBSERVICE_ALLOWED_HOSTNAMES=* \
+  PATH="/usr/bin/rclone:${PATH}" 
 
 RUN \
   echo "**** install packages ****" && \
@@ -26,7 +27,9 @@ RUN \
   apt-get install -y \
     libicu74 \
     ttf-mscorefonts-installer \
-    unzip && \
+    unzip \
+    rclone \
+    fuse && \
   echo "**** install duplicati ****" && \
   if [ -z ${DUPLICATI_RELEASE+x} ]; then \
     DUPLICATI_RELEASE=$(curl -sX GET "https://api.github.com/repos/duplicati/duplicati/releases" \
@@ -52,3 +55,6 @@ COPY root/ /
 # ports and volumes
 EXPOSE 8200
 VOLUME /backups /config /source
+
+# set up entrypoint
+ENTRYPOINT [ "/init" ]
