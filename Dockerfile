@@ -9,11 +9,11 @@ ARG DUPLICATI_RELEASE
 LABEL build_version="Linuxserver.io version:- ${VERSION} Build-date:- ${BUILD_DATE}"
 LABEL maintainer="aptalca"
 
-# environment settings
+# environment settings (original for REQUIRE_DB_ENCRYPTION_KEY=true)
 ARG DEBIAN_FRONTEND="noninteractive"
 ENV HOME="/config" \
   TMPDIR=/run/duplicati-temp \
-  DUPLICATI__REQUIRE_DB_ENCRYPTION_KEY=true \
+  DUPLICATI__REQUIRE_DB_ENCRYPTION_KEY=false \
   DUPLICATI__SERVER_DATAFOLDER=/config \
   DUPLICATI__WEBSERVICE_PORT=8200 \
   DUPLICATI__WEBSERVICE_INTERFACE=any \
